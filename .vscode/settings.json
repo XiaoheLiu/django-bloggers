@@ -1,0 +1,16 @@
+{
+  "python.linting.pylintEnabled": true,
+  "python.linting.enabled": true,
+  "workbench.colorCustomizations": {
+    "titleBar.activeForeground": "#fff",
+    "titleBar.inactiveForeground": "#eee",
+    "titleBar.activeBackground": "#017e35",
+    "titleBar.inactiveBackground": "#027444"
+  },
+  "python.pythonPath": "django_env/bin/python",
+  "workbench.colorTheme": "Noctis Lux",
+  "editor.tabSize": 4,
+  "editor.insertSpaces": true,
+"editor.detectIndentation": false,
+"python.pythonPath": "/Users/athena/Desktop/repo/django-apps/django_env/bin/python3"
+}
