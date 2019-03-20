@@ -39,4 +39,6 @@ Create an application
 python manage.py startapp blog
 ```
 
-Make a basic view in `views.py`
+- Make a basic view in `views.py`
+- Create `blog/urls.py` and link views to urlpatterns
+- Modify `urls.py` and add the blog app urls to the main urls
