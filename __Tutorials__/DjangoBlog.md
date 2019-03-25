@@ -1,15 +1,17 @@
+# Django Blog
+
 ## 1. Getting Started
 
 ### Setting Up Virtual Environment
 
-Initiate the virtual environment and activate it:
+- Initiate the virtual environment and activate it:
 
 ```bash
 python3 -m venv django_env
 source django_env/bin/activate
 ```
 
-Install packages and check version:
+- Install packages and check version:
 
 ```bash
 python -m pip install --upgrade pip
@@ -18,19 +20,19 @@ pip3 install django
 python -m django --version
 ```
 
-Generate/update requirements.txt file:
+- Generate/update requirements.txt file:
 
 ```bash
 pip freeze > requirements.txt
 ```
 
-To install the packages specified in requirements.txt:
+- To install the packages specified in requirements.txt:
 
 ```bash
  pip install -r requirements.txt
 ```
 
-### Start the project
+- Now start the project
 
 ```bash
 django-admin startproject django_project
@@ -40,7 +42,7 @@ python manage.py runserver
 
 ## 2. Routing
 
-Create an application
+- Create an application
 
 ```bash
 python manage.py startapp blog
@@ -71,3 +73,46 @@ python manage.py migrate
 python manage.py createsuperuser
 # Restart the server to login
 ```
+
+## 5. Database and Migrations
+
+- ORM: Object Relational Mapper
+- Represent data structure in python classes (models)
+- It is possible to use SQLite in development, and Postgres for production. You just need to change the settings.
+- In `blog/models.py`, create `class Post(models.Model):`, then make migrations.
+- Django generated a `blog/migrations/0001_initial.py` file.
+- To view the sql code that django is going to run
+
+```bash
+python manage.py sqlmigrate <app_name> <migration_id>
+python manage.py sqlmigrate blog 0001
+```
+
+- Migrate: `python manage.py migrate`
+- We can query the database using django shell interactively. `python manage.py shell`
+
+```python
+from blog.models import Post
+from django.contrib.auth.models import User
+User.objects.all()
+User.objects.first()
+User.objects.last()
+user = User.objects.filter(username='athena').first()
+user.id
+user.pk # primary key
+user2 = User.objects.get(id=2)
+# Create a post and save to database
+post_1 = Post(title='Blog1', content='ipsi lorem', author=user)
+post_1.save()
+post_2 = Post(title='Blog2', content='ipsi2 lorem2', author_id=user2.id)
+post_2.save()
+Post.objects.all()
+# Get all the posts written by one user
+user.post_set.all()
+# Let this user create a post
+user.post_set.create(title='Blog3', content='ipsi3 lorem3')
+```
+
+- In `views.py`, query the data from database instead of using the dummy data: `from .models import Post`, then `Post.objects.all()`
+- In the `home.html` template, use the django [date formatter (filter)](https://docs.djangoproject.com/en/2.0/ref/templates/builtins/#date) to display date: `{{ post.date_posted|date:"F d, Y" }}`
+- To access the new Post model through admin page, register it by importing Post and then adding `admin.site.register(Post)` to `blog/admin.py`
