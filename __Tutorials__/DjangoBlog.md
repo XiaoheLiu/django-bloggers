@@ -116,3 +116,20 @@ user.post_set.create(title='Blog3', content='ipsi3 lorem3')
 - In `views.py`, query the data from database instead of using the dummy data: `from .models import Post`, then `Post.objects.all()`
 - In the `home.html` template, use the django [date formatter (filter)](https://docs.djangoproject.com/en/2.0/ref/templates/builtins/#date) to display date: `{{ post.date_posted|date:"F d, Y" }}`
 - To access the new Post model through admin page, register it by importing Post and then adding `admin.site.register(Post)` to `blog/admin.py`
+
+# 6. User Registration Page
+
+- Create an app for handling users: `python manage.py startapp users`, and register it in `settings.py`.
+- In `views.py`, create a default register form by importing django's default form `from django.contrib.auth.forms import UserCreationForm`
+- Create the template `register.html`. Load the form as paragraphs by `{{ form.as_p }}`
+- Link the url directly to the project `urls.py`
+- Handle form submissions:
+  - Alert using a one time message `from django.contrib.messages import messages` (This will be sent to the template)
+    - Types include: messages.debug/info/success/warning/error
+    - Display the message in `base.html`
+  - Redirect to another page `from django.shortcuts import redirect`, then `return redirect('blog-home')`
+  - Create "email" field by making a form class that inherits the UserCreationForm class. See `users/forms.py`
+- Install 3rd party package: `crispyforms` to make the form look better
+  - `pip install django-crispy-forms`
+  - In `settings.py`, add to installed apps: `'crispy_forms'` and also specify to use Bootstrap4 `CRISPY_TEMPLATE_PACK = 'bootstrap4'`
+  - Add to template: `{% load crispy_forms_tags %}` then use pipe filter `{{ form|crispy}}`
