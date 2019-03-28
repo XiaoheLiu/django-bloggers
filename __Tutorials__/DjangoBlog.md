@@ -143,3 +143,31 @@ user.post_set.create(title='Blog3', content='ipsi3 lorem3')
 - Create a user profile page. view ➡️ urls ➡️ template.
 - Add function decorator to the profile view. To import: `from django.contrib.auth.decorators import login_required`. This acts like a middleware. Now if the user is not logged in and hit the profile url, they will be redirected to the login page, and once they logged in, they will be redirected back to the profile page.
 - By default, django puts login url at `/accounts/login`, but we can change that in settings by `LOGIN_URL = 'login'`
+
+# 8. User Profile and Picture
+
+- Create a Profile model that extends from the default django User model in `/users/models.py`
+- `pip install Pillow` to be able to deal with images
+- Make migration, then migrate in the CLI.
+- Register the Profile model in the admin page in `/users/admin.py`. Now create a user profile in admin page.
+- Go to django shell and inspect on the image:
+
+```python
+>>> from django.contrib.auth.models import User
+>>> user = User.objects.filter(username='athena').first()
+>>> user
+<User: athena>
+>>> user.profile
+<Profile: athena Profile>
+>>> user.profile.image
+<ImageFieldFile: profile_pics/A_ORIGAMI.JPEG>
+>>> user.profile.image.width
+3024
+>>> user.profile.image.url
+'profile_pics/A_ORIGAMI.JPEG'
+```
+
+- The images are currently saved in `/profile-pics`. Not convenient. Let's change it to save in `/media/profile-pics`. In `settings.py`, add `MEDIA_ROOT = os.path.join(BASE_DIR, 'media')` and also `MEDIA_URL = '/media/'` (where the pics will be accessed through website)
+- Serve uploaded files from media folder in development, check the [official doc](https://docs.djangoproject.com/en/2.1/howto/static-files/#serving-files-uploaded-by-a-user-during-development). For production, check [the doc](https://docs.djangoproject.com/en/2.1/howto/static-files/deployment/)
+- Put a default.jpg into /media folder.
+- Want a user profile to be created when a new user registered. Make a `signals.py` and add a `create_profile` signal and a `save_profile` signal. Then register the signals in the apps.py.
