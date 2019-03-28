@@ -133,3 +133,13 @@ user.post_set.create(title='Blog3', content='ipsi3 lorem3')
   - `pip install django-crispy-forms`
   - In `settings.py`, add to installed apps: `'crispy_forms'` and also specify to use Bootstrap4 `CRISPY_TEMPLATE_PACK = 'bootstrap4'`
   - Add to template: `{% load crispy_forms_tags %}` then use pipe filter `{{ form|crispy}}`
+
+# 7. Login and Logout Page
+
+- In the project url.py, import class based auth views `from django.contrib.auth import views as auth_views` and include them in the url patterns: `path('login/', auth_views.LoginView.as_view(), name='login'),`
+- Create login template
+- Change redirect url setting in `settings.py` by `LOGIN_REDIRECT_URL = 'blog-home'`
+- Update the `base.html` to link to the login/logout urls. Conditionally show the links. `{% if user.is_authenticated %}`
+- Create a user profile page. view ➡️ urls ➡️ template.
+- Add function decorator to the profile view. To import: `from django.contrib.auth.decorators import login_required`. This acts like a middleware. Now if the user is not logged in and hit the profile url, they will be redirected to the login page, and once they logged in, they will be redirected back to the profile page.
+- By default, django puts login url at `/accounts/login`, but we can change that in settings by `LOGIN_URL = 'login'`
