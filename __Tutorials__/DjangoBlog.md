@@ -171,3 +171,16 @@ user.post_set.create(title='Blog3', content='ipsi3 lorem3')
 - Serve uploaded files from media folder in development, check the [official doc](https://docs.djangoproject.com/en/2.1/howto/static-files/#serving-files-uploaded-by-a-user-during-development). For production, check [the doc](https://docs.djangoproject.com/en/2.1/howto/static-files/deployment/)
 - Put a default.jpg into /media folder.
 - Want a user profile to be created when a new user registered. Make a `signals.py` and add a `create_profile` signal and a `save_profile` signal. Then register the signals in the apps.py.
+
+# 9. User Profile Update
+
+- Create `UserUpdateForm` and `ProfileUpdateForm` in `users/forms.py`
+- Import the forms in `users/views.py`
+  - Initiate a new instance of the forms, and pass to the template as context.
+  - Populate current user information in the profile view `SomeForm(instance=request.someModel)`
+  - User if statements to handle POST request and save form and redirect if forms are valid
+- Add the form to `profile.html` template. Remember to add `enctype="multipart/form-data"` attribute to the form tag for handling images.
+- To resize the profile image and save a smaller one, in `users/models.py`:
+  - Use the Pillow package for resizing: `from PIL import Image`.
+  - Override the save method of Profile model.
+- Include author's profile picture by the side of their article.
