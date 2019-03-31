@@ -38,8 +38,9 @@
                     <!-- Navbar Right Side -->
                     <div class="navbar-nav">
                         {% if user.is_authenticated %}
-                        <a class="nav-item nav-link" href="{% url 'profile' %}">Hi, {{ user.username }}</a>
-                        <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                        <a class="nav-item nav-link" href="{% url 'profile' %}">👤 {{ user.username }}</a>
+                        <a class="nav-item nav-link" href="{% url 'post-create' %}">✍️ New Post</a>
+                        <a class="nav-item nav-link" href="{% url 'logout' %}">👋 Logout</a>
                         {% else %}
 
                         <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>

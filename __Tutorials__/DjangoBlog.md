@@ -184,3 +184,42 @@ user.post_set.create(title='Blog3', content='ipsi3 lorem3')
   - Use the Pillow package for resizing: `from PIL import Image`.
   - Override the save method of Profile model.
 - Include author's profile picture by the side of their article.
+
+# 10. Full CRUD Features for Posts
+
+### ListView
+
+- Create PostListView (a class based view) at `blog/views.py` and import it in `blog/urls.py`
+- By default, ListView looks for a template at `<app>/<model>_<viewType>.html`, in this case `blog/post_list.html`. Also, the variable passed to the template is `<model>_<viewtype>`, eg. `post_list`. But we can overwrite them by setting `template_name` and `context_object_name`
+- To make the latest post on top: `ordering = ['-date_posted']`
+
+### DetailView
+
+- Create PostDetailView, set model to be Post
+- Make url patterns. `path('post/<int:pk>', PostDetailView.as_view(), name='post-detail'),`
+- Create template `post_detail.html`. By convention, refer to the post by `object`
+- Update links in the post_list template. `href="{% url 'post-detail' post.id%}"` (post.id) is the parameter taken.
+
+### Create View
+
+- Create the view. Set the fields in the form by `fields = ['title', 'content']`
+- Url pattern: `path('post/new', PostCreateView.as_view(), name='post-create')`
+- Template share with the update form, named `post_form.html`. Refer to the form element as `form`
+- Set author as logged in user by overriding the default `form_valid(self, form)` method
+- When form successfully submitted, redirect user to the post-detail page. In `models.py`, set a `get_absolute_url` method for the Post model.
+- To protect the new post route from unlogged-in users, make this view inherite from the `LoginRequiredMixin` from `django.contrib.auth.mixins`
+
+### Update View
+
+- Create view. Very similar to the create view.
+- Set up url patterns. Use `path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),`
+- Only allow the author to update their post. Use `UserPassesTestMixin` and define a `test_func` that returns True if user is the author.
+
+### Delete View
+
+- Create view, inherit from the two mixins and add teh test_func method.
+- Set up url patterns `path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),`
+- Create `post_confirm_delete.html` template, a form that asks the user to confirm the deletion.
+- Add success url to view: `success_url = reverse_lazy('blog-home')`
+
+- Add links in the nav bar and the post detail page.
