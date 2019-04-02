@@ -223,3 +223,44 @@ user.post_set.create(title='Blog3', content='ipsi3 lorem3')
 - Add success url to view: `success_url = reverse_lazy('blog-home')`
 
 - Add links in the nav bar and the post detail page.
+
+# 11. Pagination
+
+- Load fake data
+
+```python
+$ python manage.py shell
+import json
+from blogs.models import Post
+with open('post.json') as f:
+    posts_json = json.load(f)
+for post in posts_json:
+    post = Post(title=post['title'], content=post['content'], author_id=post['user_id'])
+    post.save()
+```
+
+- Play with django's paginator object within shell:
+
+```python
+from django.core.paginator import Paginator
+posts = ['a', 'b', 'c', '1', '2', '3']
+p = Paginator(posts, 3)
+p.num_pages
+for page in p.page_range:
+    print(page)
+p1 = p.page(1) # <Page 1 of 2>
+p1.number # 1
+p1.object_list # ['a', 'b', 'c']
+p1.has_previous() # False
+p1.has_next() # True
+p1.next_page_number() # 2
+```
+
+- Add pagination in `PostListView` by adding `paginate_by = 2`
+- Add links to pages in `home.html`. Page object is referred to as `page_obj`
+
+### Filter Posts by User
+
+- Create `UserPostListView` in `views.py`
+- Create url patterns
+- Create template `user_posts.html`. Refer to the user in the query parameters by `{{ view.kwargs.username }}`
