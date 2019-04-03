@@ -264,3 +264,13 @@ p1.next_page_number() # 2
 - Create `UserPostListView` in `views.py`
 - Create url patterns
 - Create template `user_posts.html`. Refer to the user in the query parameters by `{{ view.kwargs.username }}`
+
+# 12. Email and Password Reset
+
+- In `urls.py`, set up urls for the
+  - _password reset view_ (form to enter email)
+  - _password reset done view_ (info display)
+  - _password reset confirm view_ (form to enter new password)
+  - _password reset complete view_ (message to tell you password is successfully reset):
+  - from the `auth_views.PasswordResetView`
+- Create templates for these views.
