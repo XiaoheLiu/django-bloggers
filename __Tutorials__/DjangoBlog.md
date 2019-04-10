@@ -284,11 +284,14 @@ p1.next_page_number() # 2
 - Remove the image resizing functionality with pillow in `users/models.py`
 
 # 14. Deploy to Heroku
+
 ```bash
 heroku create django-bloggers
 git push heroku master
 heroku logs --tail
 heroku config:set SECRETE_KEY="blablabla"
+heroku releases
+heroku rollback v18
 ```
 
 - Add `STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')` to settings.py to set up static root.
@@ -299,10 +302,12 @@ heroku config:set SECRETE_KEY="blablabla"
 
 - `pip install django-heroku`
 - In settings.py, import `django_heroku` and add `django_heroku.settings(locals())` at the bottom
-- `heroku run python ./django_progect/manage.py migrate`
+- `heroku run python ./django_project/manage.py migrate`
 
 ```bash
 heroku run bash
+cd django_project
 python manage.py createsuperuser
+python manage.py runscript seed_db
 exit
 ```
