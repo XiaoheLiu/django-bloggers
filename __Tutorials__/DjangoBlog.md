@@ -274,3 +274,11 @@ p1.next_page_number() # 2
   - _password reset complete view_ (message to tell you password is successfully reset):
   - from the `auth_views.PasswordResetView`
 - Create templates for these views.
+
+# 13. Set up AWS S3 for File Uploads
+
+- Create S3 bucket
+- Create IAM User
+- `pip install boto3` and `django-storages` and add `'storages` to the installed apps in settings.py.
+- Put ASW related variables into settings.
+- Remove the image resizing functionality with pillow in `users/models.py`
