@@ -300,3 +300,9 @@ heroku config:set SECRETE_KEY="blablabla"
 - `pip install django-heroku`
 - In settings.py, import `django_heroku` and add `django_heroku.settings(locals())` at the bottom
 - `heroku run python ./django_progect/manage.py migrate`
+
+```bash
+heroku run bash
+python manage.py createsuperuser
+exit
+```
