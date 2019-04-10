@@ -282,3 +282,21 @@ p1.next_page_number() # 2
 - `pip install boto3` and `django-storages` and add `'storages` to the installed apps in settings.py.
 - Put ASW related variables into settings.
 - Remove the image resizing functionality with pillow in `users/models.py`
+
+# 14. Deploy to Heroku
+```bash
+heroku create django-bloggers
+git push heroku master
+heroku logs --tail
+heroku config:set SECRETE_KEY="blablabla"
+```
+
+- Add `STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')` to settings.py to set up static root.
+- Add Procfile
+- Add herokuapp.com to ALLOWED_HOSTS in settings.py
+- Regenerate secret key with `import secrets` `secrets.token_hex(24)` and store it safely in environment variables
+
+
+- `pip install django-heroku`
+- In settings.py, import `django_heroku` and add `django_heroku.settings(locals())` at the bottom
+- `heroku run python ./django_progect/manage.py migrate`
